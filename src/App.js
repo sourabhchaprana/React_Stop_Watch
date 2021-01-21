@@ -4,21 +4,22 @@ import "./App.css";
 const App = () => {
   const [time, setTime] = React.useState(0);
   const [timerOn, setTimerOn] = React.useState(false);
-  const [count, setcount] = React.useState(0);
+  const [count, setcount] = React.useState(1);
 
   React.useEffect(() => {
     let interval = null;
 
     if (timerOn) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime + 10);
-      }, 10);
-    } else if (!timerOn) {
-      clearInterval(interval);
+        setTime((prevTime) => ((prevTime + count*1000)  > 0 ? prevTime + count*1000 : 0 ));
+      }, 1000);
     }
+    // else if (!timerOn) {
+    //   clearInterval(interval);
+    // }
 
     return () => clearInterval(interval);
-  }, [timerOn]);
+  });
 
   const handleIncreament = () => {
     if (count <= 9) {
@@ -29,16 +30,16 @@ const App = () => {
     if (count >= -9) {
       setcount(count - 1);
     }
-    
   };
 
   return (
     <div className="Timers">
       <h2>Stopwatch</h2>
       <div id="display">
-        <span>{("0" + Math.floor(time / 60000)).slice(-2)}:</span>
-        <span>{("0" + Math.floor(time / 1000)).slice(-2)}:</span>
-        <span>{("0" + time / 10).slice(-2)}</span>
+      <span>{("0" + Math.floor(time / 600000)).slice(-2)}:</span>
+        <span>{("0" + (Math.floor(time / 60000)%60)).slice(-2)}:</span>
+        <span>{("0" + (Math.floor(time / 1000)%60)).slice(-2)}</span>
+        {/* <span>{("0" + time / 10).slice(-2)}</span> */}
       </div>
 
       <div id="buttons">
